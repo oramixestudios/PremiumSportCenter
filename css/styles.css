@@ -1,25 +1,28 @@
 :root {
-    /* Olympic Style Light Theme */
+    /**
+     * @section Design System / Sistema de Diseño
+     */
+
+    /* Olympic Style Light Theme / Tema Claro Estilo Olímpico */
     --bg-body: #f4f6f9;
     --bg-card: #ffffff;
     --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    /* Sutil degradado gris/azul */
 
-    /* Professional Sport Colors */
+    /* Professional Sport Colors / Colores Deportivos Profesionales */
     --primary: #0056b3;
-    /* Azul Olímpico - Profesionalismo */
+    /* Olympic Blue / Azul Olímpico */
     --secondary: #28a745;
-    /* Verde Césped/Salud */
+    /* Grass Green / Verde Césped */
     --accent: #fd7e14;
-    /* Naranja Energía */
+    /* Energy Orange / Naranja Energía */
     --danger: #dc3545;
-    /* Rojo Competencia */
+    /* Competition Red / Rojo Competencia */
     --dark: #343a40;
-    /* Gris Oscuro para texto */
+    /* Dark Gray / Gris Oscuro */
     --light: #f8f9fa;
-    /* Blanco Humo */
+    /* Smoke White / Blanco Humo */
 
-    /* UI Variables */
+    /* UI Variables / Variables de Interfaz */
     --text-main: #343a40;
     --text-muted: #6c757d;
     --glass: rgba(255, 255, 255, 0.9);

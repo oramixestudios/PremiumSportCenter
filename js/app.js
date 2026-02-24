@@ -1,4 +1,6 @@
-// App State & Mock Database
+/**
+ * @description App State & Mock Database / Estado de la Aplicación y Base de Datos Simulada
+ */
 const DB_KEYS = {
     USERS: 'titan_users',
     CLASSES: 'titan_classes',
@@ -13,7 +15,9 @@ const DB_KEYS = {
     STAFF_INCIDENTS: 'titan_staff_incidents'
 };
 
-// Initialize Dummy Data
+/**
+ * @description Initialize Dummy Data / Inicializar datos de demostración
+ */
 function initDB() {
     if (!localStorage.getItem(DB_KEYS.USERS)) {
         const users = [
@@ -60,7 +64,9 @@ function initDB() {
     if (!localStorage.getItem(DB_KEYS.STAFF_INCIDENTS)) localStorage.setItem(DB_KEYS.STAFF_INCIDENTS, JSON.stringify([]));
 }
 
-// Authentication
+/**
+ * @description User Authentication / Autenticación de Usuario
+ */
 function login(username, password) {
     const users = JSON.parse(localStorage.getItem(DB_KEYS.USERS));
     const user = users.find(u => u.user === username && u.pass === password);

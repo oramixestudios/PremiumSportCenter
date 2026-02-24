@@ -1,4 +1,7 @@
-const CACHE_NAME = 'sports-center-v' + new Date().getTime(); // Dynamic cache name
+/**
+ * @description Service Worker for Offline PWA Support / Service Worker para soporte PWA Sin Conexión
+ */
+const CACHE_NAME = 'sports-center-v' + new Date().getTime(); // Dynamic cache name / Nombre de caché dinámico
 const ASSETS = [
     './',
     './index.html',
