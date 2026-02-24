@@ -46,12 +46,12 @@ function initDB() {
         localStorage.setItem(DB_KEYS.NOTICES, JSON.stringify(notices));
     }
 
-    if (!localStorage.getItem(DB_KEYS.PRODUCTS)) {
+    if (!localStorage.getItem(DB_KEYS.PRODUCTS) || localStorage.getItem(DB_KEYS.PRODUCTS).includes('via.placeholder')) {
         const products = [
-            { id: 1, name: 'Proteína Whey (Vainilla)', price: 45, image: 'https://via.placeholder.com/100?text=Protein' },
-            { id: 2, name: 'Agua Mineral 1L', price: 15, image: 'https://via.placeholder.com/100?text=Water' },
-            { id: 3, name: 'Barra Energética', price: 25, image: 'https://via.placeholder.com/100?text=Bar' },
-            { id: 4, name: 'Toalla Titan', price: 150, image: 'https://via.placeholder.com/100?text=Towel' }
+            { id: 1, name: 'Proteína Whey (Vainilla)', price: 45, image: 'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=200&auto=format&fit=crop' },
+            { id: 2, name: 'Agua Mineral 1L', price: 15, image: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?q=80&w=200&auto=format&fit=crop' },
+            { id: 3, name: 'Barra Energética', price: 25, image: 'https://images.unsplash.com/photo-1622484211148-713216503b41?q=80&w=200&auto=format&fit=crop' },
+            { id: 4, name: 'Toalla Titan', price: 150, image: 'https://images.unsplash.com/photo-1522933115033-060144b6c6b3?q=80&w=200&auto=format&fit=crop' }
         ];
         localStorage.setItem(DB_KEYS.PRODUCTS, JSON.stringify(products));
     }
