@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Mi Panel - Titan Sports</title>
+    <link rel="stylesheet" href="css/styles.css?v=4.0">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <nav class="glass-card"
+        style="border-radius: 0; padding: 1rem 2rem; border: none; border-bottom: 1px solid var(--glass-border);">
+        <div class="logo" style="font-weight: bold; font-size: 1.5rem; color: var(--primary);">
+            <i class="fas fa-dumbbell"></i> TITAN <span style="color: var(--secondary);">CLIENTE</span>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <button class="btn" style="padding: 0.5rem 1rem; font-size: 0.8rem; background: var(--secondary);"
+                onclick="showMyID()">
+                <i class="fas fa-id-card"></i> Mi ID
+            </button>
+            <span id="userNameDisplay">Usuario</span>
+            <button class="btn btn-secondary" onclick="logout()"
+                style="padding: 0.5rem 1rem; font-size: 0.8rem;">Salir</button>
+        </div>
+    </nav>
+
+    <!-- Digital ID Modal -->
+    <div id="idModal" class="modal-overlay" style="display:none;">
+        <div class="glass-card modal-content" style="text-align: center; border: 2px solid var(--secondary);">
+            <h3 style="color: var(--secondary); margin-bottom: 1rem;">MEMBER ID</h3>
+            <img id="idPhoto" src="" alt="Profile"
+                style="width: 100px; height: 100px; border-radius: 50%; border: 2px solid white; margin-bottom: 1rem;">
+            <h2 id="idName" style="margin-bottom: 0.5rem;">User Name</h2>
+            <p id="idPlan" style="color: var(--primary); font-weight: bold; font-size: 1.2rem; margin-bottom: 1rem;">
+                PLAN GOLD</p>
+            <div style="background: white; padding: 1rem; display: inline-block; border-radius: 10px;">
+                <!-- Placeholder QR -->
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TitanMember" alt="QR Code"
+                    width="150" height="150">
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.8rem; color: #aaa;">Escanea este código en la entrada</p>
+            <button class="btn btn-secondary" style="margin-top: 1rem; width: 100%;" onclick="closeID()">Cerrar</button>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 100px; padding-bottom: 2rem;">
+
+        <!-- Notices Section -->
+        <h2 style="margin-bottom: 1rem;">Avisos Recientes</h2>
+        <div id="noticesGrid"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+            <!-- Notices Injected Here -->
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+
+            <!-- 1. Reserve Classes -->
+            <div class="glass-card">
+                <h3 style="color: var(--primary); margin-bottom: 1rem;">Reservar Clase</h3>
+                <div id="availableClassesList">
+                    <!-- Available Classes Injected Here -->
+                </div>
+            </div>
+
+            <!-- 2. My Reservations -->
+            <div class="glass-card">
+                <h3 style="color: var(--secondary); margin-bottom: 1rem;">Mis Reservas</h3>
+                <div id="myReservationsList">
+                    <!-- Booked Classes Injected Here -->
+                </div>
+            </div>
+
+            <!-- 3. Power Shop -->
+            <div class="glass-card">
+                <h3 style="color: var(--secondary); margin-bottom: 1rem;">Titan Power Shop</h3>
+                <div id="productsList" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <!-- Products Injected Here -->
+                </div>
+            </div>
+
+            <!-- 4. Progress Tracker -->
+            <div class="glass-card">
+                <h3 style="color: var(--accent); margin-bottom: 1rem;">Mi Progreso (Peso kg)</h3>
+                <canvas id="progressChart" style="max-height: 200px; margin-bottom: 1rem;"></canvas>
+                <form onsubmit="handleProgressUpdate(event)"
+                    style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="number" id="weightInput" step="0.1" placeholder="Peso (kg)" required
+                            style="flex: 1; min-width: 0;">
+                        <input type="date" id="dateInput" required style="flex: 1; min-width: 0;">
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Registrar</button>
+                </form>
+            </div>
+
+            <!-- Payments -->
+            <div class="glass-card">
+                <h3 style="color: var(--secondary); margin-bottom: 1rem;">Pagos & Comprobantes</h3>
+                <p style="margin-bottom: 1rem; font-size: 0.9rem;">Sube tu comprobante de pago.</p>
+                <form id="paymentForm" onsubmit="handlePaymentUpload(event)">
+                    <input type="file" id="paymentFile" required style="border: 1px dashed var(--glass-border);">
+                    <textarea id="paymentNote" placeholder="Comentario opcional..."
+                        style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: white; margin-bottom: 1rem;"></textarea>
+                    <button type="submit" class="btn" style="width: 100%;">Subir Comprobante</button>
+                </form>
+            </div>
+
+            <!-- Report Absence -->
+            <div class="glass-card">
+                <h3 style="color: var(--danger); margin-bottom: 1rem;">Reportar Ausencia</h3>
+                <p style="font-size: 0.9rem; margin-bottom: 1rem;">Avísanos si no podrás asistir.</p>
+                <button class="btn btn-secondary" onclick="alert('Notificación enviada al instructor.')"
+                    style="width: 100%;">No podré asistir hoy</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/app.js?v=1.0"></script>
+    <script>
+        // Init logic
+        const user = getCurrentUser();
+        if (!user) window.location.href = 'index.html';
+        document.getElementById('userNameDisplay').innerText = user.name;
+
+        // Render Notices
+        const notices = getData(DB_KEYS.NOTICES);
+        const noticesGrid = document.getElementById('noticesGrid');
+        notices.forEach(notice => {
+            const card = document.createElement('div');
+            card.className = 'glass-card';
+            card.style.borderLeft = `4px solid ${notice.type === 'warning' ? 'orange' : 'var(--primary)'}`;
+            card.innerHTML = `
+                <h4>${notice.title}</h4>
+                <p style="margin-top: 0.5rem; color: #ddd;">${notice.content}</p>
+                <small style="display: block; margin-top: 1rem; color: var(--text-muted);">${notice.date}</small>
+            `;
+            noticesGrid.appendChild(card);
+        });
+
+        // 1. Render Available Classes
+        function renderClasses() {
+            const classes = getData(DB_KEYS.CLASSES);
+            const list = document.getElementById('availableClassesList');
+            list.innerHTML = '';
+
+            classes.forEach(cls => {
+                const div = document.createElement('div');
+                div.style.padding = '1rem';
+                div.style.marginBottom = '0.5rem';
+                div.style.background = 'rgba(255,255,255,0.05)';
+                div.style.borderRadius = '8px';
+
+                const isFull = cls.spots <= 0;
+
+                div.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>${cls.name}</strong> <small>(${cls.spots} cupos)</small><br>
+                            <span style="color: var(--primary); font-size: 0.9rem;">${cls.time}</span> • <small>${cls.instructor}</small>
+                        </div>
+                        <button class="btn" style="padding: 0.3rem 0.8rem; font-size: 0.8rem; ${isFull ? 'background: #555; cursor: not-allowed;' : ''}" 
+                            onclick="handleBookClass(${cls.id})" ${isFull ? 'disabled' : ''}>
+                            ${isFull ? 'Lleno' : 'Reservar'}
+                        </button>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        // 2. Render My Reservations
+        function renderReservations() {
+            const reservations = getUserReservations(user.id);
+            const list = document.getElementById('myReservationsList');
+            list.innerHTML = '';
+
+            if (reservations.length === 0) {
+                list.innerHTML = '<small style="color: #aaa;">No tienes reservas activas.</small>';
+                return;
+            }
+
+            reservations.forEach(res => {
+                const div = document.createElement('div');
+                div.style.padding = '0.8rem';
+                div.style.marginBottom = '0.5rem';
+                div.style.background = 'rgba(126, 217, 87, 0.1)'; // Light green tint based on secondary
+                div.style.border = '1px solid var(--secondary)';
+                div.style.borderRadius = '8px';
+                div.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>${res.className}</strong><br>
+                            <small>${res.classTime} - ${res.date}</small>
+                        </div>
+                        <button class="btn btn-secondary" style="padding: 0.2rem 0.5rem; font-size: 0.7rem; background: var(--danger);" 
+                            onclick="handleCancel(${res.id})">Cancelar</button>
+                    </div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function handleBookClass(classId) {
+            const result = bookClass(classId, user.id);
+            alert(result.message);
+            if (result.success) {
+                renderClasses();
+                renderReservations();
+            }
+        }
+
+        function handleCancel(resId) {
+            if (confirm('¿Cancelar esta reserva?')) {
+                const result = cancelBooking(resId);
+                alert(result.message);
+                if (result.success) {
+                    renderClasses();
+                    renderReservations();
+                }
+            }
+        }
+
+        // 3. Render Store
+        function renderProducts() {
+            const products = getData(DB_KEYS.PRODUCTS);
+            const list = document.getElementById('productsList');
+            // Mock images if not present
+            list.innerHTML = '';
+
+            products.forEach(prod => {
+                const div = document.createElement('div');
+                div.className = 'glass-card';
+                div.style.padding = '0.8rem';
+                div.style.textAlign = 'center';
+                div.innerHTML = `
+                   <img src="${prod.image}" style="width: 50px; height: 50px; border-radius: 8px; margin-bottom: 0.5rem;">
+                   <h5 style="margin: 0;">${prod.name}</h5>
+                   <p style="color: var(--secondary); font-weight: bold;">$${prod.price}</p>
+                   <button class="btn" style="width: 100%; padding: 0.3rem; margin-top: 0.5rem; font-size: 0.8rem;" 
+                    onclick="handleBuy('${prod.name}', ${prod.price})">Comprar</button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function handleBuy(name, price) {
+            if (confirm(`¿Comprar ${name} por $${price}?`)) {
+                placeOrder(user.id, [{ name, price }], price);
+                alert('¡Pedido realizado! Pasa por recepción.');
+            }
+        }
+
+        // 4. Render Chart
+        let myChart;
+        function renderChart() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            const progress = getUserProgress(user.id);
+            const labels = progress.map(p => p.date);
+            const data = progress.map(p => p.value);
+
+            if (myChart) myChart.destroy();
+
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Peso (kg)',
+                        data: data,
+                        borderColor: '#FF00E6', // Secondary color
+                        backgroundColor: 'rgba(255, 0, 230, 0.2)',
+                        borderWidth: 2,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: false, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ccc' } },
+                        x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ccc' } }
+                    },
+                    plugins: { legend: { labels: { color: 'white' } } }
+                }
+            });
+        }
+
+        function handleProgressUpdate(e) {
+            e.preventDefault();
+            const weight = document.getElementById('weightInput').value;
+            const date = document.getElementById('dateInput').value;
+
+            if (weight && date) {
+                addProgressEntry(user.id, weight, date);
+                renderChart();
+                e.target.reset();
+            }
+        }
+
+        // Initial Renders
+        renderClasses();
+        renderReservations();
+        renderProducts();
+        renderChart();
+
+        // Digital ID Logic
+        function showMyID() {
+            document.getElementById('idModal').style.display = 'flex';
+            document.getElementById('idName').innerText = user.name;
+            document.getElementById('idPlan').innerText = `PLAN ${user.plan || 'ESTÁNDAR'}`.toUpperCase();
+            document.getElementById('idPhoto').src = user.photo || 'https://via.placeholder.com/150';
+        }
+
+        function closeID() {
+            document.getElementById('idModal').style.display = 'none';
+        }
+
+        function handlePaymentUpload(e) {
+            e.preventDefault();
+            const file = document.getElementById('paymentFile').files[0];
+            const note = document.getElementById('paymentNote').value;
+
+            if (file) {
+                addPayment(file, note);
+                alert('Comprobante subido exitosamente. Pendiente de aprobación.');
+                e.target.reset();
+            }
+        }
+    </script>
+</body>
+
+</html>

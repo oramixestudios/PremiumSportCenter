@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Premium Sports Center</title>
+    <link rel="stylesheet" href="css/styles.css?v=4.2">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- Placeholder for icons -->
+</head>
+
+<body>
+
+    <nav class="glass-card"
+        style="border-radius: 0; padding: 1rem 2rem; border: none; border-bottom: 1px solid var(--glass-border);">
+        <div class="logo" style="font-weight: bold; font-size: 1.5rem; color: var(--primary);">
+            <i class="fas fa-dumbbell"></i> TITAN <span style="color: var(--secondary);">SPORTS</span>
+        </div>
+        <button class="btn" onclick="showLogin()">Ingresar</button>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-box"> <!-- Caja blanca para legibilidad -->
+                <h1>Eleva tu Potencial</h1>
+                <p>Gimnasio • Alberca • Gimnasia Olímpica</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn" onclick="showLogin('new')">Comenzar Ahora</button>
+                    <button class="btn btn-secondary" onclick="scrollToInstallations()">Ver Instalaciones</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installations Section -->
+    <section id="instalaciones" style="padding: 4rem 2rem; text-align: center;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Nuestras Instalaciones</h2>
+        <p style="color: var(--text-muted); margin-bottom: 3rem;">Espacios diseñados para el alto rendimiento y el
+            confort.</p>
+
+        <div class="gallery-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+            <div class="glass-card gallery-item">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop"
+                    alt="Zona de Pesas" id="img-gym"
+                    style="width: 100%; border-radius: 10px; margin-bottom: 1rem; object-fit: cover; height: 250px;">
+                <h3>Zona de Pesas</h3>
+                <p style="color: #aaa; font-size: 0.9rem;">Equipamiento de última generación.</p>
+            </div>
+            <div class="glass-card gallery-item">
+                <img src="https://images.unsplash.com/photo-1576610616656-d3aa5d1f4534?w=600&h=400&fit=crop"
+                    alt="Alberca" id="img-pool"
+                    style="width: 100%; border-radius: 10px; margin-bottom: 1rem; object-fit: cover; height: 250px;">
+                <h3>Alberca Olímpica</h3>
+                <p style="color: #aaa; font-size: 0.9rem;">Carriles profesionales y temperatura controlada.</p>
+            </div>
+            <div class="glass-card gallery-item">
+                <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=400&fit=crop"
+                    alt="Gimnasia" id="img-gymnastics"
+                    style="width: 100%; border-radius: 10px; margin-bottom: 1rem; object-fit: cover; height: 250px;">
+                <h3>Arena de Gimnasia</h3>
+                <p style="color: #aaa; font-size: 0.9rem;">Piso de rebote y aparatos certificados.</p>
+            </div>
+            <div class="glass-card gallery-item">
+                <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&h=400&fit=crop"
+                    alt="Fachada" id="img-exterior"
+                    style="width: 100%; border-radius: 10px; margin-bottom: 1rem; object-fit: cover; height: 250px;">
+                <h3>Arquitectura Moderna</h3>
+                <p style="color: #aaa; font-size: 0.9rem;">Un espacio inspirador desde que llegas.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="glass-card modal-content" id="loginCard">
+            <h2 style="margin-bottom: 1.5rem;">Bienvenido</h2>
+
+            <div id="authForms">
+                <input type="text" id="username" placeholder="Usuario / ID">
+                <input type="password" id="password" placeholder="Contraseña">
+                <button class="btn" style="width: 100%;" onclick="handleLogin()">Entrar</button>
+            </div>
+
+            <div class="divider" style="margin: 1.5rem 0; color: var(--text-muted);">o ingresa con</div>
+
+            <div class="login-options">
+                <div class="glass-card login-btn" onclick="simulateBiometric()">
+                    <span style="font-size: 1.5rem;"><i class="fas fa-fingerprint"></i></span> Biométrico
+                </div>
+                <div class="glass-card login-btn" onclick="simulateQR()">
+                    <span style="font-size: 1.5rem;"><i class="fas fa-qrcode"></i></span> Código QR
+                </div>
+            </div>
+
+            <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted); cursor: pointer;"
+                onclick="closeLogin()">Cerrar</p>
+        </div>
+
+        <!-- Simulation Layers -->
+        <div id="biometricOverlay" class="glass-card modal-content" style="display: none; text-align: center;">
+            <div
+                style="width: 100px; height: 100px; border: 2px solid var(--primary); margin: 0 auto; position: relative; border-radius: 50%;">
+                <div class="scan-line" style="display: block;"></div>
+                <span style="line-height: 100px; font-size: 3rem;"><i class="fas fa-user"></i></span>
+            </div>
+            <p style="margin-top: 1rem;">Escaneando Rostro...</p>
+        </div>
+    </div>
+
+    <script src="js/app.js?v=1.0"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+
+        function showLogin() {
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function closeLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        // Just basic UI logic here, core auth in app.js
+        function simulateBiometric() {
+            document.getElementById('loginCard').style.display = 'none';
+            document.getElementById('biometricOverlay').style.display = 'block';
+            setTimeout(() => {
+                alert("Biométrico Aceptado");
+                // In real app, this would route to dashboard
+                window.location.href = 'client.html';
+            }, 2000);
+        }
+
+        function simulateQR() {
+            alert("Abriendo cámara para QR...");
+            setTimeout(() => {
+                window.location.href = 'client.html';
+            }, 1000);
+        }
+
+        function handleLogin() {
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+
+            // Use the login function from app.js to authenticate and save session
+            const user = login(usernameInput, passwordInput);
+
+            if (user) {
+                if (user.role === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'client.html';
+                }
+            } else {
+                alert('Usuario o contraseña incorrectos');
+            }
+        }
+
+        function scrollToInstallations() {
+            document.getElementById('instalaciones').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>

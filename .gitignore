@@ -1,0 +1,11 @@
+# Archivos de entorno local
+start_server.bat
+INSTRUCCIONES_DIAGNOSTICO.txt
+test_admin.html
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

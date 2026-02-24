@@ -1,0 +1,143 @@
+/* Image Upload/Camera Capture Styles */
+
+.image-upload-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+}
+
+.profile-image-preview {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary);
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 3rem;
+}
+
+.image-upload-controls {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.image-upload-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+.image-upload-btn:hover {
+    background: var(--secondary);
+    transform: translateY(-2px);
+}
+
+.image-upload-btn i {
+    font-size: 1rem;
+}
+
+/* Camera Modal */
+.camera-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.camera-modal video {
+    max-width: 90%;
+    max-height: 70vh;
+    border-radius: 10px;
+    border: 3px solid var(--primary);
+}
+
+.camera-modal canvas {
+    display: none;
+}
+
+.camera-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+.camera-controls button {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.camera-controls .btn-capture {
+    background: var(--primary);
+    color: white;
+}
+
+.camera-controls .btn-capture:hover {
+    background: var(--secondary);
+}
+
+.camera-controls .btn-cancel {
+    background: #FF5252;
+    color: white;
+}
+
+.camera-controls .btn-cancel:hover {
+    background: #E53935;
+}
+
+/* Payment Receipt Upload */
+.receipt-preview {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+    margin: 1rem 0;
+    border: 2px solid var(--glass-border);
+}
+
+.upload-area {
+    border: 2px dashed var(--glass-border);
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+    border-color: var(--primary);
+    background: rgba(33, 150, 243, 0.1);
+}
+
+.upload-area i {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}

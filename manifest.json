@@ -1,0 +1,20 @@
+{
+    "name": "Premium Sports Center",
+    "short_name": "SportsCenter",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#0f0c29",
+    "theme_color": "#00d4ff",
+    "icons": [
+        {
+            "src": "assets/images/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/images/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
