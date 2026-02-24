@@ -46,15 +46,19 @@ function initDB() {
         localStorage.setItem(DB_KEYS.NOTICES, JSON.stringify(notices));
     }
 
+    const CURRENT_PRODUCT_VERSION = 'v4.3';
     const storedProducts = localStorage.getItem(DB_KEYS.PRODUCTS);
-    if (!storedProducts || storedProducts.includes('via.placeholder')) {
+    const productVersion = localStorage.getItem('titan_products_version');
+
+    if (!storedProducts || storedProducts.includes('via.placeholder') || productVersion !== CURRENT_PRODUCT_VERSION) {
         const products = [
-            { id: 1, name: 'Proteína Whey (Vainilla)', price: 45, image: 'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?q=80&w=200&auto=format&fit=crop' },
-            { id: 2, name: 'Agua Mineral 1L', price: 15, image: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?q=80&w=200&auto=format&fit=crop' },
-            { id: 3, name: 'Barra Energética', price: 25, image: 'https://images.unsplash.com/photo-1590085002157-ba79105cae19?q=80&w=200&auto=format&fit=crop' },
-            { id: 4, name: 'Toalla Titan', price: 150, image: 'https://images.unsplash.com/photo-1631679706909-18447d467323?q=80&w=200&auto=format&fit=crop' }
+            { id: 1, name: 'Proteína Whey (Vainilla)', price: 45, image: 'https://images.unsplash.com/photo-1577705998148-6da4f3963bc8?q=80&w=200&auto=format&fit=crop' },
+            { id: 2, name: 'Agua Mineral 1L', price: 15, image: 'https://images.unsplash.com/photo-151242855908e-56035ceaf52c?q=80&w=200&auto=format&fit=crop' },
+            { id: 3, name: 'Barra Energética', price: 25, image: 'https://images.unsplash.com/photo-1622484211148-713216503b41?q=80&w=200&auto=format&fit=crop' },
+            { id: 4, name: 'Toalla Titan', price: 150, image: 'https://images.unsplash.com/photo-1555529731-118a09803277?q=80&w=200&auto=format&fit=crop' }
         ];
         localStorage.setItem(DB_KEYS.PRODUCTS, JSON.stringify(products));
+        localStorage.setItem('titan_products_version', CURRENT_PRODUCT_VERSION);
     }
 
     // Initialize empty reservations/orders/progress if not exist
