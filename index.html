@@ -28,16 +28,12 @@
 
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-box">
-                <h1
-                    style="background: linear-gradient(90deg, #ffffff, #00d2ff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
-                    TITAN SPORTS</h1>
-                <p
-                    style="text-transform: uppercase; font-size: 1.2rem; color: #00d2ff; text-shadow: 0 0 10px rgba(0,210,255,0.5);">
-                    Power • Performance • Luxury</p>
-                <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-                    <button class="btn" style="padding: 1.2rem 2.5rem;" onclick="showLogin()">COMENZAR AHORA</button>
-                    <button class="btn btn-secondary" onclick="scrollToInstallations()">EXPLORACIÓN</button>
+            <div class="hero-box"> <!-- Caja blanca para legibilidad -->
+                <h1>Eleva tu Potencial</h1>
+                <p>Gimnasio • Alberca • Gimnasia Olímpica</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn" onclick="showLogin('new')">Comenzar Ahora</button>
+                    <button class="btn btn-secondary" onclick="scrollToInstallations()">Ver Instalaciones</button>
                 </div>
             </div>
         </div>
@@ -84,37 +80,28 @@
 
     <!-- Login Modal -->
     <div id="loginModal" class="modal-overlay">
-        <div class="glass-card modal-content" id="loginCard"
-            style="border: 1px solid var(--primary); box-shadow: 0 0 50px rgba(0,210,255,0.2);">
-            <h2 style="margin-bottom: 2rem; font-size: 2rem; text-align: center; font-weight: 900;">ACCESO <span
-                    style="color: var(--primary);">TITAN</span></h2>
+        <div class="glass-card modal-content" id="loginCard">
+            <h2 style="margin-bottom: 1.5rem;">Bienvenido</h2>
 
             <div id="authForms">
                 <input type="text" id="username" placeholder="Usuario / ID">
                 <input type="password" id="password" placeholder="Contraseña">
-                <button class="btn" style="width: 100%; margin-top: 1rem;" onclick="handleLogin()">ENTRAR
-                    SISTEMA</button>
+                <button class="btn" style="width: 100%;" onclick="handleLogin()">Entrar</button>
             </div>
 
-            <div class="divider" style="margin: 2rem 0; color: #444; position: relative; text-align: center;">
-                <span style="background: var(--dark); padding: 0 1rem;">O</span>
-            </div>
+            <div class="divider" style="margin: 1.5rem 0; color: var(--text-muted);">o ingresa con</div>
 
             <div class="login-options">
-                <div class="glass-btn" onclick="simulateBiometric()"
-                    style="padding: 1.5rem; border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: center; transition: 0.3s; background: rgba(255,255,255,0.02);">
-                    <i class="fas fa-fingerprint" style="font-size: 2rem; color: var(--primary);"></i>
-                    <p style="margin-top: 0.5rem; font-size: 0.8rem;">BIOMÉTRICO</p>
+                <div class="glass-card login-btn" onclick="simulateBiometric()">
+                    <span style="font-size: 1.5rem;"><i class="fas fa-fingerprint"></i></span> Biométrico
                 </div>
-                <div class="glass-btn" onclick="simulateQR()"
-                    style="padding: 1.5rem; border: 1px solid var(--glass-border); border-radius: 12px; cursor: pointer; text-align: center; transition: 0.3s; background: rgba(255,255,255,0.02);">
-                    <i class="fas fa-qrcode" style="font-size: 2rem; color: var(--accent);"></i>
-                    <p style="margin-top: 0.5rem; font-size: 0.8rem;">CÓDIGO QR</p>
+                <div class="glass-card login-btn" onclick="simulateQR()">
+                    <span style="font-size: 1.5rem;"><i class="fas fa-qrcode"></i></span> Código QR
                 </div>
             </div>
 
-            <p style="margin-top: 2rem; font-size: 0.8rem; text-align: center; color: #666; cursor: pointer; text-decoration: underline;"
-                onclick="closeLogin()">VOLVER AL INICIO</p>
+            <p style="margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted); cursor: pointer;"
+                onclick="closeLogin()">Cerrar</p>
         </div>
 
         <!-- Simulation Layers -->
