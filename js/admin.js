@@ -110,11 +110,18 @@ function initDashboard() {
         });
     }
 
-    // 2. Attendance Chart
-    const classCounts = {};
+    // 2. Attendance Chart (Gym vs Pool vs Others)
+    const classCounts = { 'Gym/Pesos': 0, 'Alberca': 0, 'Yoga/Otros': 0 };
     reservations.forEach(r => {
         if (r.status === 'attended' || r.status === 'pending') {
-            classCounts[r.className] = (classCounts[r.className] || 0) + 1;
+            const name = r.className.toLowerCase();
+            if (name.includes('gym') || name.includes('pesas') || name.includes('fuerza')) {
+                classCounts['Gym/Pesos']++;
+            } else if (name.includes('alberca') || name.includes('natación') || name.includes('pool')) {
+                classCounts['Alberca']++;
+            } else {
+                classCounts['Yoga/Otros']++;
+            }
         }
     });
 
@@ -128,12 +135,20 @@ function initDashboard() {
             data: {
                 labels: Object.keys(classCounts),
                 datasets: [{
-                    label: 'Asistencias',
+                    label: 'Socios por Disciplina',
                     data: Object.values(classCounts),
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                    backgroundColor: ['#2196F3', '#00BCD4', '#9C27B0'],
+                    borderRadius: 8
                 }]
             },
-            options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#333' } } } }
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#888' } },
+                    x: { ticks: { color: '#888' } }
+                }
+            }
         });
     }
 
@@ -739,6 +754,34 @@ function uploadImageFile(inputId) {
     input.click();
 }
 
+// Staff Incident Handler
+function handleStaffIncident(e) {
+    e.preventDefault();
+    const classId = document.getElementById('incidentClassId').value;
+    const instructor = document.getElementById('incidentInstructor').value;
+    const description = document.getElementById('incidentDescription').value;
+
+    if (!classId) return alert('Selecciona una clase');
+
+    reportIncident(instructor, description, classId);
+    alert('✓ Incidencia registrada. Se ha publicado un aviso para los socios.');
+    e.target.reset();
+}
+
+function populateIncidentClasses() {
+    const classes = getData(DB_KEYS.CLASSES);
+    const select = document.getElementById('incidentClassId');
+    if (!select) return;
+
+    select.innerHTML = '<option value="">Seleccionar Clase Afectada...</option>';
+    classes.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.innerText = `${c.name} (${c.time})`;
+        select.appendChild(opt);
+    });
+}
+
 // Initialize all displays
 console.log('Admin script loaded successfully');
 renderPayments();
@@ -746,3 +789,4 @@ renderReservations();
 renderOrders();
 renderInventory();
 initDashboard();
+populateIncidentClasses();

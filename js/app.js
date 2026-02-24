@@ -481,3 +481,78 @@ function resetData() {
 
 // UI Helpers
 initDB();
+
+/**
+ * @section Physical Progress / Progreso Físico
+ * Handles member body measurements tracking
+ * Gestiona el seguimiento de medidas corporales de los socios
+ */
+function getUserProgress(userId) {
+    const progress = getData(DB_KEYS.PROGRESS);
+    return progress.filter(p => p.userId === userId);
+}
+
+function addProgressEntry(userId, value, date) {
+    const progress = getData(DB_KEYS.PROGRESS);
+    progress.push({
+        id: Date.now(),
+        userId: userId,
+        value: parseFloat(value),
+        date: date
+    });
+    saveData(DB_KEYS.PROGRESS, progress);
+}
+
+/**
+ * @section Store Orders / Pedidos de Tienda
+ * Processes simulated e-commerce orders
+ * Procesa pedidos de e-commerce simulado
+ */
+function placeOrder(userId, items, total) {
+    const orders = getData(DB_KEYS.ORDERS);
+    orders.push({
+        id: Date.now(),
+        userId: userId,
+        items: items,
+        total: total,
+        date: new Date().toLocaleString(),
+        status: 'pending' // pending, ready, picked_up
+    });
+    saveData(DB_KEYS.ORDERS, orders);
+}
+
+/**
+ * @section Staff Incidents / Incidentes de Staff
+ * Allows staff to report absences and notifies clients
+ * Permite al personal reportar ausencias y notifica a los clientes
+ */
+function reportIncident(instructor, description, affectedClassId) {
+    const incidents = getData(DB_KEYS.STAFF_INCIDENTS);
+    const incidentId = Date.now();
+
+    incidents.push({
+        id: incidentId,
+        instructor: instructor,
+        description: description,
+        classId: affectedClassId,
+        date: new Date().toLocaleString(),
+        status: 'active'
+    });
+    saveData(DB_KEYS.STAFF_INCIDENTS, incidents);
+
+    // Notify affected users via notices / Notificar a usuarios afectados mediante avisos
+    const classes = getData(DB_KEYS.CLASSES);
+    const cls = classes.find(c => c.id == affectedClassId);
+
+    if (cls) {
+        const notices = getData(DB_KEYS.NOTICES);
+        notices.unshift({
+            id: Date.now(),
+            title: `¡ALERTA!: Cambios en la clase de ${cls.name}`,
+            content: `El instructor ${instructor} reporta: "${description}". Por favor revisa alternativas.`,
+            date: new Date().toLocaleDateString(),
+            type: 'warning'
+        });
+        saveData(DB_KEYS.NOTICES, notices);
+    }
+}

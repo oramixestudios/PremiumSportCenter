@@ -118,7 +118,6 @@
                 </ul>
             </div>
 
-            <!-- Post Notice -->
             <div class="glass-card">
                 <h3>Publicar Aviso</h3>
                 <form onsubmit="handlePostNotice(event)">
@@ -127,11 +126,33 @@
                         style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: white; margin-bottom: 1rem;"
                         required></textarea>
                     <select id="noticeType"
-                        style="margin-bottom: 1rem; background: #0f0c29; color: white; padding: 0.5rem; border-radius: 5px;">
-                        <option value="info">Información</option>
-                        <option value="warning">Alerta</option>
+                        style="width: 100%; margin-bottom: 1rem; background: #0f0c29; color: white; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border);">
+                        <option value="info">Información General</option>
+                        <option value="warning">Alerta / Urgente</option>
                     </select>
-                    <button type="submit" class="btn" style="width: 100%;">Publicar</button>
+                    <button type="submit" class="btn" style="width: 100%;">Publicar Aviso</button>
+                </form>
+            </div>
+
+            <!-- Staff Incidents System -->
+            <div class="glass-card" style="border: 2px solid var(--accent);">
+                <h3><i class="fas fa-exclamation-triangle"></i> Incidencias de Staff</h3>
+                <p style="font-size: 0.8rem; margin-bottom: 1rem;">Reportar ausencia de instructor y notificar clientes.
+                </p>
+                <form onsubmit="handleStaffIncident(event)">
+                    <select id="incidentClassId" required
+                        style="width: 100%; margin-bottom: 1rem; background: #0f0c29; color: white; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--glass-border);">
+                        <option value="">Seleccionar Clase Afectada...</option>
+                        <!-- Classes will be injected -->
+                    </select>
+                    <input type="text" id="incidentInstructor" placeholder="Nombre del Instructor" required>
+                    <textarea id="incidentDescription"
+                        placeholder="Motivo de la incidencia (ej: Enfermedad, Retardo)..."
+                        style="width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: white; margin-bottom: 1rem;"
+                        required></textarea>
+                    <button type="submit" class="btn" style="width: 100%; background: var(--accent); color: #000;">
+                        Notificar Incidencia y Clientes
+                    </button>
                 </form>
             </div>
 

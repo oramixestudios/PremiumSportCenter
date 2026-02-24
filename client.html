@@ -40,10 +40,9 @@
             <h2 id="idName" style="margin-bottom: 0.5rem;">User Name</h2>
             <p id="idPlan" style="color: var(--primary); font-weight: bold; font-size: 1.2rem; margin-bottom: 1rem;">
                 PLAN GOLD</p>
-            <div style="background: white; padding: 1rem; display: inline-block; border-radius: 10px;">
-                <!-- Placeholder QR -->
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TitanMember" alt="QR Code"
-                    width="150" height="150">
+            <div
+                style="background: white; padding: 1.5rem; display: inline-block; border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                <img id="idQR" src="" alt="QR Code" width="180" height="180">
             </div>
             <p style="margin-top: 1rem; font-size: 0.8rem; color: #aaa;">Escanea este código en la entrada</p>
             <button class="btn btn-secondary" style="margin-top: 1rem; width: 100%;" onclick="closeID()">Cerrar</button>
@@ -315,8 +314,12 @@
         function showMyID() {
             document.getElementById('idModal').style.display = 'flex';
             document.getElementById('idName').innerText = user.name;
-            document.getElementById('idPlan').innerText = `PLAN ${user.plan || 'ESTÁNDAR'}`.toUpperCase();
+            document.getElementById('idPlan').innerText = `SOCIO ${user.plan || 'ESTÁNDAR'}`.toUpperCase();
             document.getElementById('idPhoto').src = user.photo || 'https://via.placeholder.com/150';
+
+            // Generate Dynamic QR with user ID and timestamp
+            const qrData = `TITAN_MEMBER_${user.id}_${Date.now()}`;
+            document.getElementById('idQR').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrData}`;
         }
 
         function closeID() {
