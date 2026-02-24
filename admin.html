@@ -246,6 +246,13 @@
                     <!-- User List -->
                     <div class="glass-card">
                         <h3><i class="fas fa-list"></i> Lista de Usuarios</h3>
+                        <div style="margin-top: 1rem; position: relative;">
+                            <i class="fas fa-search"
+                                style="position: absolute; left: 1rem; top: 1rem; color: #888;"></i>
+                            <input type="text" id="userSearchInput" placeholder="Buscar por nombre..."
+                                oninput="handleUserSearch()"
+                                style="padding-left: 2.5rem; width: 100%; margin-bottom: 0;">
+                        </div>
                         <div style="max-height: 400px; overflow-y: auto; margin-top: 1rem;">
                             <ul id="usersList" style="list-style: none;">
                                 <!-- Users will be rendered here -->
@@ -282,6 +289,55 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- EDIT USER MODAL -->
+    <div id="editUserModal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10001; align-items: center; justify-content: center; padding: 2rem;">
+        <div class="glass-card" style="max-width: 500px; width: 100%; position: relative;">
+            <button onclick="closeEditModal()"
+                style="position: absolute; top: 1rem; right: 1rem; background: #FF5252; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 style="color: var(--primary); margin-bottom: 1.5rem;"><i class="fas fa-user-edit"></i> Editar Usuario
+            </h3>
+            <form onsubmit="handleEditUser(event)">
+                <input type="hidden" id="editUserId">
+
+                <div class="image-upload-container" style="margin-bottom: 1rem;">
+                    <img id="editUserPhotoPreview" class="profile-image-preview" src="" alt="Foto de perfil">
+                    <div id="editUserPhotoPlaceholder" class="profile-image-preview" style="display: none;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                <input type="hidden" id="editUserPhoto" value="">
+                <div class="image-upload-controls" style="margin-bottom: 1rem;">
+                    <button type="button" class="image-upload-btn" onclick="openCamera('editUserPhoto')">
+                        <i class="fas fa-camera"></i> Cámara
+                    </button>
+                    <button type="button" class="image-upload-btn" onclick="uploadImageFile('editUserPhoto')">
+                        <i class="fas fa-upload"></i> Archivo
+                    </button>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-size: 0.8rem; color: #888; margin-bottom: 0.3rem;">Nombre
+                        Completo</label>
+                    <input type="text" id="editUserName" placeholder="Nombre completo" required>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; font-size: 0.8rem; color: #888; margin-bottom: 0.3rem;">Plan de
+                        Socio</label>
+                    <select id="editUserPlan"
+                        style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
+                        <option value="Basic">Plan Basic</option>
+                        <option value="Gold">Plan Gold</option>
+                        <option value="Platinum">Plan Platinum</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Guardar Cambios</button>
+            </form>
         </div>
     </div>
 

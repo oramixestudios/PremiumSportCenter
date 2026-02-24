@@ -436,9 +436,15 @@ function handleAddUser(e) {
     // Reset photo preview
     document.getElementById('newUserPhoto').value = '';
     const photoPreview = document.getElementById('newUserPhotoPreview');
+    const photoPlaceholder = document.getElementById('newUserPhotoPlaceholder');
+
     if (photoPreview) {
         photoPreview.style.display = 'none';
         photoPreview.src = '';
+    }
+
+    if (photoPlaceholder) {
+        photoPlaceholder.style.display = 'flex';
     }
 
     // Refresh lists
@@ -483,12 +489,17 @@ function deleteUser(userId) {
 }
 
 // Render Users List
-function renderUsersList() {
-    const users = getData(DB_KEYS.USERS);
+function renderUsersList(filteredUsers = null) {
+    const users = filteredUsers || getData(DB_KEYS.USERS);
     const list = document.getElementById('usersList');
     if (!list) return;
 
     list.innerHTML = '';
+
+    if (users.length === 0) {
+        list.innerHTML = '<p style="color: #aaa; text-align: center; padding: 1rem;">No se encontraron usuarios.</p>';
+        return;
+    }
 
     users.forEach(u => {
         const li = document.createElement('li');
@@ -515,11 +526,15 @@ function renderUsersList() {
                     ${u.id === 1 ? ' | <span style="color: #FFD700;">★ Principal</span>' : ''}
                 </small>
             </div>
-            <div>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
                 ${u.id !== 1 ? `
-                    <button class="btn btn-secondary" onclick="deleteUser(${u.id})" 
-                        style="padding: 0.5rem 1rem; font-size: 0.8rem; background: #FF5252;">
-                        <i class="fas fa-trash"></i> Eliminar
+                    <button class="btn" onclick="openEditModal(${u.id})" 
+                        style="padding: 0.5rem 1rem; font-size: 0.7rem; background: var(--primary); color: white; border: none; border-radius: 5px;">
+                        <i class="fas fa-edit"></i> EDITAR
+                    </button>
+                    <button class="btn" onclick="deleteUser(${u.id})" 
+                        style="padding: 0.5rem 1rem; font-size: 0.7rem; background: #dc3545; color: white; border: none; border-radius: 5px;">
+                        <i class="fas fa-trash"></i> ELIMINAR
                     </button>
                 ` : '<small style="color: #888;">Protegido</small>'}
             </div>
@@ -527,6 +542,67 @@ function renderUsersList() {
 
         list.appendChild(li);
     });
+}
+
+// Handle User Search
+function handleUserSearch() {
+    const query = document.getElementById('userSearchInput').value.toLowerCase();
+    const users = getData(DB_KEYS.USERS);
+
+    const filtered = users.filter(u =>
+        u.name.toLowerCase().includes(query) ||
+        u.user.toLowerCase().includes(query)
+    );
+
+    renderUsersList(filtered);
+}
+
+// EDIT USER LOGIC
+function openEditModal(userId) {
+    const users = getData(DB_KEYS.USERS);
+    const user = users.find(u => u.id === userId);
+    if (!user) return;
+
+    document.getElementById('editUserId').value = user.id;
+    document.getElementById('editUserName').value = user.name;
+    document.getElementById('editUserPlan').value = user.plan || 'Basic';
+    document.getElementById('editUserPhoto').value = user.photo || '';
+
+    const preview = document.getElementById('editUserPhotoPreview');
+    const placeholder = document.getElementById('editUserPhotoPlaceholder');
+
+    if (user.photo) {
+        preview.src = user.photo;
+        preview.style.display = 'block';
+        placeholder.style.display = 'none';
+    } else {
+        preview.style.display = 'none';
+        placeholder.style.display = 'flex';
+    }
+
+    document.getElementById('editUserModal').style.display = 'flex';
+}
+
+function closeEditModal() {
+    document.getElementById('editUserModal').style.display = 'none';
+}
+
+function handleEditUser(e) {
+    e.preventDefault();
+    const id = parseInt(document.getElementById('editUserId').value);
+    const users = getData(DB_KEYS.USERS);
+    const idx = users.findIndex(u => u.id === id);
+
+    if (idx !== -1) {
+        users[idx].name = document.getElementById('editUserName').value;
+        users[idx].plan = document.getElementById('editUserPlan').value;
+        users[idx].photo = document.getElementById('editUserPhoto').value;
+
+        saveData(DB_KEYS.USERS, users);
+        alert('✓ Datos de usuario actualizados correctamente.');
+        closeEditModal();
+        renderUsersList();
+    }
 }
 
 // ============================================
@@ -691,9 +767,15 @@ function capturePhoto() {
     // Set to target input
     if (currentImageTarget) {
         const preview = document.getElementById(currentImageTarget + 'Preview');
+        const placeholder = document.getElementById(currentImageTarget + 'Placeholder');
+
         if (preview) {
             preview.src = imageData;
             preview.style.display = 'block';
+        }
+
+        if (placeholder) {
+            placeholder.style.display = 'none';
         }
 
         // Store in hidden input
@@ -736,9 +818,15 @@ function uploadImageFile(inputId) {
 
                 // Set preview
                 const preview = document.getElementById(inputId + 'Preview');
+                const placeholder = document.getElementById(inputId + 'Placeholder');
+
                 if (preview) {
                     preview.src = imageData;
                     preview.style.display = 'block';
+                }
+
+                if (placeholder) {
+                    placeholder.style.display = 'none';
                 }
 
                 // Store in hidden input
