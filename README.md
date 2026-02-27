@@ -49,4 +49,4 @@ Este proyecto está listo para ser desplegado en plataformas como **Vercel**, **
 3. Configura el dominio personalizado (ej. `PremiumSportCenter.com`).
 
 ---
-Desarrollado con ❤️ por **Oramix & Co** (oramixco.com).
+Desarrollado con... por **Oramix & Co** (oramixco.com).
